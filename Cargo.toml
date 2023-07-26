@@ -1,0 +1,12 @@
+[package]
+name = "embedded-toolbox-rs"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+bitvec = "1.0.1"
+rand = { version = "0.8.5", features = ["small_rng"] }
+rppal = { version = "0.14.1", features = ["hal", "hal-unproven"] }
+embedded-hal = { version = "0.2.7", features = ["unproven"] }
