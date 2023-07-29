@@ -1,5 +1,5 @@
-use i2c::pcd8544::Pcd8544;
-use i2c::pcd8544::graphics::DisplayBuffer;
+use embedded_toolbox_rs::pcd8544::Pcd8544;
+use embedded_toolbox_rs::pcd8544::graphics::DisplayBuffer;
 use rppal::spi::{Spi, Bus, SlaveSelect, Mode};
 use rppal::gpio::{Gpio, OutputPin};
 use std::borrow::BorrowMut;

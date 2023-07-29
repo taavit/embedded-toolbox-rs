@@ -47,6 +47,16 @@ dependencies = [
 ]
 
 [[package]]
+name = "embedded-toolbox-rs"
+version = "0.1.0"
+dependencies = [
+ "bitvec",
+ "embedded-hal 0.2.7",
+ "rand",
+ "rppal",
+]
+
+[[package]]
 name = "funty"
 version = "2.0.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -61,16 +71,6 @@ dependencies = [
  "cfg-if",
  "libc",
  "wasi",
-]
-
-[[package]]
-name = "i2c"
-version = "0.1.0"
-dependencies = [
- "bitvec",
- "embedded-hal 0.2.7",
- "rand",
- "rppal",
 ]
 
 [[package]]

@@ -1,7 +1,8 @@
 use std::{thread::{self, sleep}, time::Duration};
 
-use i2c::pcd8544::{Pcd8544, graphics::DisplayBuffer};
+use embedded_toolbox_rs::pcd8544::{Pcd8544, graphics::DisplayBuffer};
 use rppal::{i2c::I2c, gpio::Gpio, spi::{Spi, Bus, SlaveSelect, Mode}};
+
 fn main() {
     let mut spi = Spi::new(
         Bus::Spi1,

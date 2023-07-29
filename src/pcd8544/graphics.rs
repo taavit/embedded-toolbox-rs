@@ -33,12 +33,18 @@ impl DisplayBuffer {
     }
 
     pub fn text_mode_put_text(&mut self, text: &str, x: usize, y: usize) {
-        for (pos, ch) in text.as_bytes().iter().map(| c | if c.is_ascii() { c } else { &0x00 } ).enumerate() {
-            self.data[84 * y + 6*x + pos * 6 + 0] = FONT[*ch as usize][0];
-            self.data[84 * y + 6*x + pos * 6 + 1] = FONT[*ch as usize][1];
-            self.data[84 * y + 6*x + pos * 6 + 2] = FONT[*ch as usize][2];
-            self.data[84 * y + 6*x + pos * 6 + 3] = FONT[*ch as usize][3];
-            self.data[84 * y + 6*x + pos * 6 + 4] = FONT[*ch as usize][4];
+        let str_iter = text
+            .as_bytes()
+            .iter()
+            .map(| c | if c.is_ascii() { c } else { &0x00 } )
+            .enumerate();
+
+        for (pos, ch) in str_iter {
+            let buf_start = DISPLAY_WIDTH * y + 6 * x + pos * 6;
+            let chunk: &mut [u8; 5] = &mut self.data[
+                buf_start..buf_start + 5
+            ].try_into().unwrap();
+            *chunk = FONT[*ch as usize];
         }
     }
 }

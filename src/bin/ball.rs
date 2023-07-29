@@ -1,6 +1,6 @@
 use std::{thread, time::Duration};
 use std::borrow::BorrowMut;
-use i2c::pcd8544::Pcd8544;
+use embedded_toolbox_rs::pcd8544::Pcd8544;
 use rppal::spi::{Spi, Bus, SlaveSelect, Mode};
 use rppal::gpio::Gpio;
 
