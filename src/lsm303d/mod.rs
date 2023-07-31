@@ -254,18 +254,18 @@ where I2C: WriteRead + Write + Read {
 
         temperature = i16::from_le_bytes(buffer.try_into().unwrap());
 
-        self.i2c.write_read(self.address, &[0x28 | 0x80], &mut buffer).map_err(|_| ())?;
+        self.i2c.write_read(self.address, &[Register::OutXLA as u8 | 0x80], &mut buffer).map_err(|_| ())?;
         acc_x = (f64::from(i16::from_le_bytes(buffer.try_into().unwrap())) * self.acc_divider) / 32678.0;
-        self.i2c.write_read(self.address, &[0x2a | 0x80], &mut buffer).map_err(|_| ())?;
+        self.i2c.write_read(self.address, &[Register::OutYLA as u8 | 0x80], &mut buffer).map_err(|_| ())?;
         acc_y = (f64::from(i16::from_le_bytes(buffer.try_into().unwrap())) * self.acc_divider) / 32678.0;
-        self.i2c.write_read(self.address, &[0x2c | 0x80], &mut buffer).map_err(|_| ())?;
+        self.i2c.write_read(self.address, &[Register::OutZLA as u8 | 0x80], &mut buffer).map_err(|_| ())?;
         acc_z = (f64::from(i16::from_le_bytes(buffer.try_into().unwrap())) * self.acc_divider) / 32678.0;
 
-        self.i2c.write_read(self.address, &[0x08 | 0x80], &mut buffer).map_err(|_| ())?;
+        self.i2c.write_read(self.address, &[Register::OutXLM as u8 | 0x80], &mut buffer).map_err(|_| ())?;
         mag_x = (f64::from(i16::from_le_bytes(buffer.try_into().unwrap())) * self.mag_divider) / 32678.0;
-        self.i2c.write_read(self.address, &[0x0A | 0x80], &mut buffer).map_err(|_| ())?;
+        self.i2c.write_read(self.address, &[Register::OutYLM as u8 | 0x80], &mut buffer).map_err(|_| ())?;
         mag_y = (f64::from(i16::from_le_bytes(buffer.try_into().unwrap())) * self.mag_divider) / 32678.0;
-        self.i2c.write_read(self.address, &[0x0C | 0x80], &mut buffer).map_err(|_| ())?;
+        self.i2c.write_read(self.address, &[Register::OutZLM as u8 | 0x80], &mut buffer).map_err(|_| ())?;
         mag_z = (f64::from(i16::from_le_bytes(buffer.try_into().unwrap())) * self.mag_divider) / 32678.0;
 
         Ok(Measurements {
