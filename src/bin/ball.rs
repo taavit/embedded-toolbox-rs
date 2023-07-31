@@ -46,7 +46,7 @@ fn main() {
     i2c.block_write(0x24, &[0x80|0x10]).unwrap();
     i2c.block_write(0x20, &[0x40|0x07]).unwrap();
 
-    let mut spi = Spi::new(
+    let spi = Spi::new(
         Bus::Spi1,
         SlaveSelect::Ss0,
         1_000_000,

@@ -1,10 +1,10 @@
-use std::{thread::{self, sleep}, time::Duration};
+use std::{thread::sleep, time::Duration};
 
 use embedded_toolbox_rs::pcd8544::{Pcd8544, graphics::DisplayBuffer};
 use rppal::{i2c::I2c, gpio::Gpio, spi::{Spi, Bus, SlaveSelect, Mode}};
 
 fn main() {
-    let mut spi = Spi::new(
+    let spi = Spi::new(
         Bus::Spi1,
         SlaveSelect::Ss0,
         1_000_000,
@@ -13,9 +13,9 @@ fn main() {
     
     let mut data = [0u8; 504];
 
-    let mut rst_pin = Gpio::new().unwrap().get(13).unwrap().into_output();
-    let mut ce_pin = Gpio::new().unwrap().get(16).unwrap().into_output();
-    let mut dc_pin = Gpio::new().unwrap().get(26).unwrap().into_output();
+    let rst_pin = Gpio::new().unwrap().get(13).unwrap().into_output();
+    let ce_pin = Gpio::new().unwrap().get(16).unwrap().into_output();
+    let dc_pin = Gpio::new().unwrap().get(26).unwrap().into_output();
 
     let mut bl = Gpio::new().unwrap().get(6).unwrap().into_output();
     bl.set_high();

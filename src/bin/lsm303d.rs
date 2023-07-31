@@ -1,35 +1,32 @@
 use std::{thread, time::Duration};
 
+use embedded_toolbox_rs::lsm303d::{LSM303D, MagnetometerConfiguration, MagnetometerDataRate, MagneticSensorMode, MagnetometerFullScale, AccelerometerConfiguration, AccelerationDataRate, AccelerationFullScale, InternalTemperatureConfiguration, Register};
 use rppal::i2c::I2c;
 
 fn main() {
     let mut i2c = I2c::new().unwrap();
     i2c.set_slave_address(0x1d).unwrap();
-    let mut buffer = [0u8; 1];
-    let mut temp = [0u8; 2];
-    let mut acc_x = [0u8; 2];
-    let mut acc_y = [0u8; 2];
-    let mut acc_z = [0u8; 2];
-    // i2c.block_write(0x00, &[0x42, 0x43, 0x44, 0x45]).unwrap();
-    // thread::sleep(Duration::from_millis(4000));
-    i2c.block_read(0x0F, &mut buffer).unwrap();
-    println!("Hello, world! {:?}", buffer);
-    i2c.block_write(0x24, &[0x80|0x10]).unwrap();
-    i2c.block_write(0x20, &[0x40|0x07]).unwrap();
+
+    let mut lsm303d = LSM303D::new(i2c);
+    lsm303d.check_connection().unwrap();
+    lsm303d.configure_magnetometer(MagnetometerConfiguration {
+        data_rate: MagnetometerDataRate::Hz50,
+        mode: MagneticSensorMode::ContinuousConversion,
+        scale: MagnetometerFullScale::Mag2Gauss,
+    }).unwrap();
+    lsm303d.configure_accelerometer(AccelerometerConfiguration {
+        axis_x: true,
+        axis_y: true,
+        axis_z: true,
+        data_rate: AccelerationDataRate::Hz50,
+        scale: AccelerationFullScale::Acc2G,
+    }).unwrap();
+    lsm303d.configure_internal_temperature(
+        InternalTemperatureConfiguration { active: true }
+    ).unwrap();
+
     loop {
-        i2c.block_read(0x05 | 0x80, &mut temp).unwrap();
-        println!("temperature! {:?}", i16::from_le_bytes(temp));
-
-        i2c.block_read(0x28 | 0x80, &mut acc_x).unwrap();
-        i2c.block_read(0x2a | 0x80, &mut acc_y).unwrap();
-        i2c.block_read(0x2c | 0x80, &mut acc_z).unwrap();
-        println!(
-            "acc! {} {} {}",
-            (f64::from(i16::from_le_bytes(acc_x)) * 2.0) / 32678.0,
-            (f64::from(i16::from_le_bytes(acc_y)) * 2.0) / 32678.0,
-            (f64::from(i16::from_le_bytes(acc_z)) * 2.0) / 32678.0,
-        );
-
+        dbg!(lsm303d.read_measurements().unwrap());
         thread::sleep(Duration::from_millis(100));
     }
 }

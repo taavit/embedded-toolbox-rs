@@ -1,6 +1,9 @@
 use embedded_hal::digital::v2::{InputPin, OutputPin};
 use embedded_hal::blocking::delay::{DelayMs, DelayUs};
 
+use crate::sensors::humidity::HumidityReading;
+use crate::sensors::temperature::TemperatureReading;
+
 #[derive(Debug)]
 pub enum Error {
     PinError,
@@ -16,6 +19,18 @@ pub struct Dht11<PIN, DELAY> {
 pub struct Measurements {
     pub temperature: f64,
     pub humidity: f64,
+}
+
+impl HumidityReading for Measurements {
+    fn get_humidity(&self) -> f64 {
+        self.humidity
+    }
+}
+
+impl TemperatureReading for Measurements {
+    fn get_temperature(&self) -> f64 {
+        self.temperature
+    }
 }
 
 impl<PIN, DELAY> Dht11<PIN, DELAY>
