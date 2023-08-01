@@ -222,6 +222,8 @@ where I2C: WriteRead + Write + Read {
         buffer[0] &= 0b1111_1100;
         buffer[0] |= configuration.mode as u8;
 
+        self.i2c.write(self.address, &[Register::Ctrl7 as u8, buffer[0]]).map_err(|_| ())?;
+
         match configuration.scale {
             MagnetometerFullScale::Mag2Gauss => self.mag_divider = 2.0,
             MagnetometerFullScale::Mag4Gauss => self.mag_divider = 4.0,

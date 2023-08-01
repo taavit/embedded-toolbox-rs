@@ -26,7 +26,17 @@ fn main() {
     ).unwrap();
 
     loop {
-        dbg!(lsm303d.read_measurements().unwrap());
+        let res = lsm303d.read_measurements().unwrap();
+        println!(
+            "acc: {:3.3} {:3.3} {:3.3}\t mag: {:3.3} {:3.3} {:3.3}",
+            res.accelerometer.x,
+            res.accelerometer.y,
+            res.accelerometer.z,
+
+            res.magnetometer.x,
+            res.magnetometer.y,
+            res.magnetometer.z,
+        );
         thread::sleep(Duration::from_millis(100));
     }
 }
