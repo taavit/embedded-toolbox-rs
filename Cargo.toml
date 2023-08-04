@@ -10,3 +10,4 @@ bitvec = "1.0.1"
 rand = { version = "0.8.5", features = ["small_rng"] }
 rppal = { version = "0.14.1", features = ["hal", "hal-unproven"] }
 embedded-hal = { version = "0.2.7", features = ["unproven"] }
+embedded-sdmmc = "0.5.0"

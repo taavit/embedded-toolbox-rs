@@ -91,7 +91,7 @@ pub struct MagnetometerMeasurements {
     pub z: f64,
 }
 
-#[derive(Default, Debug)]
+#[derive(Default, Debug, Clone, Copy)]
 pub struct Measurements {
     pub temperature: f64,
     pub magnetometer: MagnetometerMeasurements,
